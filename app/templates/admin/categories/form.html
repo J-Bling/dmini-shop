@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h4>{{ '编辑分类' if category else '新增分类' }}</h4>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">分类名称 <span class="text-danger">*</span></label>
+                <input type="text" name="name" class="form-control" required value="{{ category.name if category else '' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">描述</label>
+                <input type="text" name="description" class="form-control" value="{{ category.description if category else '' }}">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">保存</button>
+                <a href="/admin/categories" class="btn btn-outline-secondary">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

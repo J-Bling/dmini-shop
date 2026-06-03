@@ -1,0 +1,86 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h4>订单详情</h4>
+    <a href="/admin/orders" class="btn btn-outline-secondary btn-sm">&larr; 返回列表</a>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header">商品列表</div>
+            <div class="card-body p-0">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                        <tr><th>商品</th><th>单价(元)</th><th>数量</th><th>小计(元)</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ '%.2f'|format(item.product_price / 100) }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ '%.2f'|format(item.product_price * item.quantity / 100) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">收货信息</div>
+            <div class="card-body">
+                <p class="mb-1"><strong>收货人：</strong>{{ order.receiver_name or '-' }}</p>
+                <p class="mb-1"><strong>电话：</strong>{{ order.receiver_phone or '-' }}</p>
+                <p class="mb-0"><strong>地址：</strong>{{ order.receiver_address or '-' }}</p>
+                {% if order.remark %}
+                <p class="mb-0 mt-2"><strong>备注：</strong>{{ order.remark }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header">订单信息</div>
+            <div class="card-body">
+                <p class="mb-1"><strong>订单号：</strong><code>{{ order.order_no }}</code></p>
+                <p class="mb-1">
+                    <strong>状态：</strong>
+                    {% set status_map = {'pending':'warning','paid':'primary','shipped':'info','delivered':'success','completed':'success','cancelled':'danger'} %}
+                    <span class="badge bg-{{ status_map.get(order.status, 'secondary') }}">{{ order.status }}</span>
+                </p>
+                <p class="mb-1"><strong>总金额：</strong>¥ {{ '%.2f'|format(order.total_price / 100) }}</p>
+                {% if order.paid_at %}
+                <p class="mb-0"><strong>支付时间：</strong>{{ order.paid_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if order.status in ['pending', 'paid', 'shipped'] %}
+        <div class="card">
+            <div class="card-header">更新状态</div>
+            <div class="card-body">
+                <form method="post" action="/admin/orders/{{ order.id }}/status">
+                    <div class="mb-2">
+                        <select name="status" class="form-select form-select-sm">
+                            {% if order.status == 'pending' %}
+                            <option value="paid">标记已支付</option>
+                            <option value="cancelled">取消订单</option>
+                            {% elif order.status == 'paid' %}
+                            <option value="shipped">标记已发货</option>
+                            {% elif order.status == 'shipped' %}
+                            <option value="delivered">标记已送达</option>
+                            <option value="completed">标记已完成</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-sm w-100">更新状态</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

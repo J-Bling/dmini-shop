@@ -32,13 +32,14 @@ async def log_requests(request: Request, call_next):
 
 
 # ─── 注册路由 ───────────────────────────────
-from app.routers import cart, orders, payment, products, users  # noqa: E402
+from app.routers import admin, cart, orders, payment, products, users  # noqa: E402
 
 app.include_router(users.router)
 app.include_router(products.router)
 app.include_router(cart.router)
 app.include_router(orders.router)
 app.include_router(payment.router)
+app.include_router(admin.router)
 
 
 # ─── 基础接口 ────────────────────────────────

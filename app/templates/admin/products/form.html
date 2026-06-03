@@ -1,0 +1,54 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h4>{{ '编辑商品' if product else '新增商品' }}</h4>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">商品名称 <span class="text-danger">*</span></label>
+                <input type="text" name="name" class="form-control" required value="{{ product.name if product else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">价格(元) <span class="text-danger">*</span></label>
+                <input type="number" name="price" class="form-control" step="0.01" required
+                       value="{{ '%.2f'|format(product.price / 100) if product else '' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">库存 <span class="text-danger">*</span></label>
+                <input type="number" name="stock" class="form-control" required value="{{ product.stock if product else '0' }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">分类</label>
+                <select name="category_id" class="form-select">
+                    <option value="">无分类</option>
+                    {% for c in categories %}
+                    <option value="{{ c.id }}" {{ 'selected' if product and product.category_id == c.id }}>{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">状态</label>
+                <select name="is_active" class="form-select">
+                    <option value="1" {{ 'selected' if not product or product.is_active }}>上架</option>
+                    <option value="0" {{ 'selected' if product and not product.is_active }}>下架</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">图片URL</label>
+                <input type="text" name="image_url" class="form-control" value="{{ product.image_url if product else '' }}">
+            </div>
+            <div class="col-12">
+                <label class="form-label">商品描述</label>
+                <textarea name="description" class="form-control" rows="3">{{ product.description if product else '' }}</textarea>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a href="/admin/products" class="btn btn-outline-secondary">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

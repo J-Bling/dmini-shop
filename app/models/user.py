@@ -13,5 +13,6 @@ class User(Base):
     hashed_password = Column(String(255), nullable=False)
     nickname = Column(String(50), default="")
     phone = Column(String(20), default="")
+    role = Column(String(20), default="user")  # user / admin
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 - Mini Shop</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f4f6f9; height: 100vh; display: flex; align-items: center; }
+        .login-card { max-width: 400px; margin: 0 auto; border: none; box-shadow: 0 0 20px rgba(0,0,0,0.08); border-radius: 0.75rem; }
+        .login-header { text-align: center; padding: 2rem 1rem 0; }
+        .login-header h3 { font-weight: 600; }
+        .login-body { padding: 2rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card login-card">
+            <div class="login-header">
+                <h3><i class="bi bi-shield-lock"></i> 管理员登录</h3>
+                <p class="text-muted">Mini Shop 后台管理系统</p>
+            </div>
+            <div class="login-body">
+                {% if error %}
+                <div class="alert alert-danger py-2">{{ error }}</div>
+                {% endif %}
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">用户名</label>
+                        <input type="text" name="username" class="form-control" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">密码</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">登 录</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="page-header">
+    <h4>控制台</h4>
+    <p class="text-muted">欢迎回来，{{ current_user.nickname or current_user.username }}</p>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card" style="border-left-color: #0d6efd;">
+            <div class="card-body">
+                <div class="number">{{ stats.products_count }}</div>
+                <div class="label"><i class="bi bi-box-seam"></i> 商品总数</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card" style="border-left-color: #198754;">
+            <div class="card-body">
+                <div class="number">{{ stats.categories_count }}</div>
+                <div class="label"><i class="bi bi-tags"></i> 分类数</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card" style="border-left-color: #ffc107;">
+            <div class="card-body">
+                <div class="number">{{ stats.orders_count }}</div>
+                <div class="label"><i class="bi bi-receipt"></i> 订单总数</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card" style="border-left-color: #dc3545;">
+            <div class="card-body">
+                <div class="number">{{ stats.users_count }}</div>
+                <div class="label"><i class="bi bi-people"></i> 用户数</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">快捷操作</div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/admin/products/create" class="btn btn-outline-primary">
+                        <i class="bi bi-plus-circle"></i> 新增商品
+                    </a>
+                    <a href="/admin/categories/create" class="btn btn-outline-success">
+                        <i class="bi bi-plus-circle"></i> 新增分类
+                    </a>
+                    <a href="/admin/orders" class="btn btn-outline-warning">
+                        <i class="bi bi-eye"></i> 查看待处理订单
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">系统信息</div>
+            <div class="card-body">
+                <table class="table table-sm mb-0">
+                    <tr><td style="width:100px">应用名称</td><td>Mini Shop API</td></tr>
+                    <tr><td>版本</td><td>1.0.0</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
